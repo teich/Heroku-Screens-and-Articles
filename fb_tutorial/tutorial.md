@@ -306,13 +306,106 @@ Now we have all we need to start creating real Facebook applications and the mos
 Ruby and Facebook (The status of gems and plugins)
 --------------------------------------------------
 
-...
+I've found that most of the existing gems and Rails plugins are still using [Facebook Connect](http://en.wikipedia.org/wiki/Facebook_Platform#Facebook_Connect) and the [Old REST API](http://developers.facebook.com/docs/reference/rest/) instead of the new [Graph API](http://developers.facebook.com/blog/post/377) and that some of them doesn't work with Ruby 1.9 and/or Rails 3.
+
+The gems we are going to use in this tutorial are proven to work with Ruby 1.9.x and Rails 3.0.0, I'd like to share with you as well the gems I tested in the process of creation of this tutorial:
+
+* **Gems**
+	- [FBGraph](http://github.com/nsanta/fbgraph)
+	- [miniFB](http://github.com/appoxy/mini_fb)
+	- [Koala](http://github.com/arsduo/koala)
+	- [Mogli](http://github.com/mmangino/mogli)
+
+* **Plugins**
+	- [Facebooker2](http://github.com/mmangino/facebooker2)
+
+* **Middlewares**
+	- [OmniAuth](http://github.com/intridea/omniauth)
+	- [rack-facebook](http://github.com/carlosparamio/rack-facebook)
 
 
-Making a Facebook application
------------------------------
+**Making the simplest Facebook application possible**
+-----------------------------------------------------
 
-...
+
+The fun part has finally arrived, in this section we'll make a very simple web application using the [Sinatra Framework](http://www.sinatrarb.com/) and we will integrate it with Facebook. I'll assume that you're using Ruby 1.9.x. and that you have [Git](http://book.git-scm.com/2_installing_git.html) installed.
+
+If you are using any other version of Ruby I'd suggest you to [install Ruby 1.9.x with RVM](http://amerine.net/2010/02/24/rvm-rails3-ruby-1-9-2-setup.html). If you're going to use [RVM](http://rvm.beginrescueend.com/) (Ruby Version Manager) you won't need to prefix the following commands with _sudo_ (Unix-like OSs only).
+
+Let's install some gems. 
+
+If you don't already do so, I do really recommend you to use [Bundler](http://gembundler.com/), it's the default gem dependency manager in Rails 3 and you'll fall in love with it as soon as you use it, well, at least I did.
+
+	$ sudo gem install bundler
+
+We need to host our web application somewhere, let's do it the easy and fast way, let's	use [Heroku](http://www.heroku.com). We'll need to install the Heroku command-line tool, a gem that will allow us to create and deploy Heroku applications with ease.
+
+	$ sudo gem install heroku
+
+Of course, you'll need to sign-up for a Heroku account and then configure the command-line tool, it's really a very simple process, [click here to see the full instructions](http://docs.heroku.com/heroku-command) to do so.
+
+We are all set up, let's get started!
+
+The first step will be to [create a Canvas application](http://www.facebook.com/developers/createapp.php) in Facebook, we already touched this earlier.
+
+I have named "Faceboku" but you can name it whatever you want to.
+
+These would be our application settings:
+
+	**Canvas Page** = http://apps.facebook.com/faceboku/  
+	**Canvas URL** &nbsp;= http://localhost:4567 (the standard port used by Sinatra application)  
+	**Canvas Type** = IFrame
+
+If you don't see the Canvas Type option, don't worry, there's a possibility Facebook has got rid of it by the time you're reading this tutorial.
+
+As you may realize, you won't be able to use the same Canvas Page than me, just choose another one. We're using http://localhost:4567 as our Canvas URL because that way we'll be able to test our Facebook application before we deploy it to Heroku.
+
+What's next? our Sinatra application.
+
+Create a directory called _simplest\_fb\_app_ wherever you want in your system, I'll do it in my home directory:
+
+	$ mkdir ~/simplest_fb_app
+
+then create the following files on it:
+
+	* **faceboku.rb** (use the name of your Canvas application)
+	* **config.ru** (Rack config file)
+
+If you installed Bundler, now we'd need to create a file called _Gemfile_, here we'll declare the dependencies of our application, but we don't need to make it manually, Bundler can make it for us:
+
+	$ bundle init
+	Writing new Gemfile to ~/simplest_fb_app/Gemfile
+
+_Take into account that the gem is called Bundler while the command-line utility is called **bundle**_
+
+Now we're going to declare the dependencies, edit the Gemfile with the text editor you want to let it look like this:
+
+	source :gemcutter
+
+	gem 'sinatra', '1.0'
+	gem 'omniauth', '0.0.5'
+
+Tell Bundler to check if we have all the dependencies installed:
+
+	$ bundle check
+	The following gems are missing
+	* sinatra (1.0)
+	Install missing gems with `bundle install`
+
+Bundler is telling us that we don't have all the dependencies resolved, let's fix it:
+
+	$ bundle install
+	Fetching source index for http://rubygems.org/
+	Using...a lot of gems
+	Using rack (1.2.1) 
+	Installing omniauth (0.0.5) 
+	Installing sinatra (1.0) 
+	Using bundler (1.0.0) 
+	Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
+
+What we gain using Bundler? There're a lot of advantages, first, we can be sure that you and me are using exactly the same versions of gems, second, Bundler creates a file called Gemfile.lock, take a look at it, you'll see a tree of dependencies, third, Bundler makes easy to deploy to different environments.
+
+NOT FINISHED
 
 Making a Facebook application with Rails 3
 ------------------------------------------
