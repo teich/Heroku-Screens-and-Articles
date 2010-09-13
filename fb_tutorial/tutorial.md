@@ -45,7 +45,7 @@ This is the easiest part, you just have to go to the Facebook Developer site and
 
 > screenshot of the form
 
-Input whatever application name you want in the _Application Name_ field, like "My Facebook App", then agree the terms and click the _Create Application_ button, after passing the _Security Check_ you'll be presented with the _Basic Information_ of you brand new application.
+Input whatever application name you want in the _Application Name_ field, like "My Facebook App", then agree the terms and click the _Create Application_ button, after passing the _Security Check_ you'll be presented with the _Basic Information_ of your brand new application.
 
 Cool, we've created our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/), now we'd need to associate it with an existing web app.
 
