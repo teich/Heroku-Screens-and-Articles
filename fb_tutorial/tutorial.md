@@ -5,18 +5,20 @@
 Introduction
 ------------
 
-Facebook has given a big step in simplicity with its _Graph API_ and the creation of the _Open Graph protocol_, now more than ever it's easier to read and write data from and to the socalled social graph.
+With Facebook's _Graph API_ and the creation of the _Open Graph protocol_, it is now easier then ever before to read and write data from and to the "social graph".  Here's a few of the possibilities:
 
-You could turn your webpage into a fully-featured Facebook-like page, just like if you were inside Facebook, you can give your users the ability to sign in with their Facebook credentials, customize your users' experience with parameters taken from their Facebook profiles, you could add a _Like_ button to every object in your page as images, songs, articles, etc., tell your users which friends of theirs have liked your content, and a lot of things more, oh, I forgot to mention something, all of this with total ease. Yes, I know you could do it with Facebook Connect, but I said "with ease".
+* You could turn your webpage into a fully-featured Facebook-like page, just like if you were inside Facebook.
+* You can give your users the ability to sign in with their Facebook credentials and customize their experience with parameters taken from their Facebook profiles.
+* You could add a _Like_ button to every object in your page as images, songs, articles, etc., and tell your users which friends of theirs have liked your content.
 
-Ok, let's get started with the fun.
+All of these can be achieved with ease. and in this article I'll show you how to get started.
 
 A brief explanation of the Facebook application architecture
 ------------------------------------------------------------
 
-Well sorry if I didn't jump to the actual funny part, but we really need to know the first things first, it'll save us a lot of time in the long run. I swear.
+First things first, we need to understand some of the underlying architecture of a facebook app.  It'll save us a lot of time in the long run. I swear.
 
-A Facebook application is actually two applications: A container application and a web application.
+A Facebook application is actually two applications: **A container application and a web application.**
 
 When we create a Facebook application in the Facebook site what we are actually creating is the container of our web app.
 
@@ -25,11 +27,9 @@ Let's think of our web application like if it were a painting, Facebook itself w
 As you can see they both are actually two different things:  
 
 * The stand and the canvas are hosted in Facebook
-* Our web application, which is not different than any other application we've made before, is not hosted in any Facebook server; we must store it in our own server or a hosting service. 
+* Our web application, which is not different than any other application we've made before, is not hosted in any Facebook server; we're going to store it on Heroku.
 
-For both of them to look like if they were only one application you have to associate them and once we do so our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/) and our web app will begin to interact with each other.
-
-Well, all of this let us with a process of three phases:  
+As far as our customers know, it will look like a single application.  To get these components to work together properly it involves a process of three phases:  
 
 * Creation
 * Association
@@ -65,12 +65,12 @@ I'd like you to pay attention to the Canvas section, here we'll find all the set
 * **Canvas Page**  
 	- It's an unique access point for your application, say you named your application _My Facebook App_, your Canvas Page might be http://apps.facebook.com/my\_facebok\_app/.
 	
-	By the way, sometimes you'll have to struggle to find an available name, it's like when you want to buy a .com domain, sometimes the one you want have been already bought by another person, it's unavailable, it's something like that.
+	By the way, sometimes you'll have to struggle to find an available name, it's like when you want to buy a .com domain, all the common names are often taken.
 
 * **Canvas URL**
 	- This is the URL of our web application, in this case **_http://my\_facebook\_app.heroku.com/_** (the trailing slash is mandatory).
 
-Now, when our users browses **_http://apps.facebook.com/my\_facebook\_app/_**, Facebook will show them our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/) (an HTML page) which contains an [IFrame](http://www.w3schools.com/tags/tag_iframe.asp) (inline frame) that in turn shows **_http://my\_facebook\_app.heroku.com/_**. This kind of applications are called **IFrame Canvas Applications**.
+Now, when our users browses **_http://apps.facebook.com/my\_facebook\_app/_**, Facebook will show them our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/) (an HTML page) which contains an [IFrame](http://www.w3schools.com/tags/tag_iframe.asp) (inline frame) that in turn shows **_http://my\_facebook\_app.heroku.com/_**. These kind of applications are called **IFrame Canvas Applications**.
 
        Canvas application                    Web application
           in Facebook                      in our own servers
@@ -104,12 +104,12 @@ Now it's time edit all the other settings to customize your application: descrip
 
 ###**The interaction between Canvas Applications, web applications and Facebook**
 
-Facebook has several mechanisms to let our web applications interact with the data of its social graph, more precisely, with the data of the users of our application, among these mechanism are:
+Facebook has two mechanisms to let our web applications interact with the data of its social graph, more precisely, with the data of the users of our application:
 
 * [Graph API](http://developers.facebook.com/docs/api) - A powerful yet simple RESTful API
-* [XFBML]() - It enables you to incorporate FBML into your websites and IFrame Canvas Applications.
+* [XFBML]() - Enables you to incorporate FBML into your websites and IFrame Canvas Applications.
 
-Every time you want an user authorizes your application and every time you want to access your users data you'll be using the [Graph API](http://developers.facebook.com/docs/api) in one way or other.
+When your application wants to retrieve information from your app users you'll use the [Graph API](http://developers.facebook.com/docs/api) in one way or other.
 
 Here's a diagram of how Facebook applications interact with the [Graph API](http://developers.facebook.com/docs/api) and XFBML.
 
@@ -146,7 +146,7 @@ Here's a diagram of how Facebook applications interact with the [Graph API](http
                                              +-----------+  
     ToDo: make an infographic
 
-If our application requests the Graph API via Javascript the communication would be directly with the Facebook servers.
+If our application requests the Graph API via Javascript the communication would be directly with the Facebook servers.  Here's an example:
 
 1.Our application contains the following Javascript code:
 
@@ -171,21 +171,18 @@ It's fired by the user with a button.
     +----------------------+ 
     ToDo: make an infographic
 
-Well, It would seem it wasn't a brief explanation but believe me, it really was.
-
 The Facebook's Graph API
 ------------------------
 
+The Graph API enables you to read and write objects and connections in the Facebook social graph. It's quite easy to use, and sticks very closely to  [RESTful](http://tomayko.com/writings/rest-to-my-wife) architecture, which you might already be familiar with.
 
-The Graph API enables you to read and write objects and connections in the Facebook social graph. It's so easy to use and it's very clean. If you want to fully understand how does the API actually works you have to know about the [RESTful](http://tomayko.com/writings/rest-to-my-wife) architecture, although it isn't completely necessary, I'd really recommend you to research about it.
-
-The main concept to take into account is _object_, we have to think of every single thing in Facebook as _objects_: photos, events, comments, friends, tags, groups, etc. and we must know that every object in Facebook has an unique identifier, an ID.
+To understand the API, we have to think of every single thing in Facebook as _objects_: photos, events, comments, friends, tags, groups, etc. and we must know that every object in Facebook has an unique identifier, an ID.
 
 Ok, let's query the Graph API with our browser. Click the following link to see the information of the Miles Davis page.
 
 [http://graph.facebook.com/57796847423](http://graph.facebook.com/57796847423)
 
-Now you should be seeing the response in [JSON](http://en.wikipedia.org/wiki/JSON) format. Among other things you will see the following information:
+Now you should be see the response in [JSON](http://en.wikipedia.org/wiki/JSON), most likely something that looks like this:
 
 	{
 	   "id": "57796847423",
@@ -203,11 +200,11 @@ Now, we're going to query the API passing the _username_ as parameter:
 
 [http://graph.facebook.com/MilesDavis](http://graph.facebook.com/MilesDavis)
 
-We get the same response, maybe there are new fans between calls but the structure is the same.
+We should get the same response.
 
-As I said earlier, that is a page, and the Graph API exposes certain public and private information of the page, In the [Graph API reference > Page](http://developers.facebook.com/docs/reference/api/page) we will find the access points to such information, Facebooks calls them Connections.
+The Graph API exposes certain public and private information of the page.  By consulting the [Graph API reference > Page](http://developers.facebook.com/docs/reference/api/page) can learn about additional access points to find different types of information (look under the **Connections** header). 
 
-The reference says we can access a connection called _posts_, let's try it:
+Once of these connections is called _posts_, let's try it:
 
 [http://graph.facebook.com/MilesDavis/posts](http://graph.facebook.com/MilesDavis)
 
@@ -226,17 +223,15 @@ Right now I see something like this:
              ...
     }
 
-It's an array of _Post_ objects, and the [Graph API reference > Post](http://developers.facebook.com/docs/reference/api/post) page say there's a connection called _Comments_ and that I can access them with the following URL:
+It's an array of Mils Davis' _Post_ objects, and the [Graph API reference > Post](http://developers.facebook.com/docs/reference/api/post) page says there's also connection called _Comments_ and that I can access with the following URL:
 
 [http://graph.facebook.com/57796847423_126368887412272/comments/](http://graph.facebook.com/57796847423_126368887412272/comments/)
 
 Cool, we are seeing the comments of the post with ID=57796847423_126368887412272.
 
-This is basically how the Graph API works, if you want to know more about it please go to the [Graph API overview page](http://developers.facebook.com/docs/api).
+This is basically how the Graph API works.  To learn more please go to the [Graph API overview page](http://developers.facebook.com/docs/api).
 
-Well, so far, we've been accessing public information, if we want to access private information we won't be able to do it this way, Facebook only allow us to access private information if we have a Facebook application and such application must be explicitly authorized to access such information.
-
-Who authorizes our application? neither Facebook nor the FCC but the **USERS**, nobody else, and they are the only ones with the power to deauthorize it.
+So far we've been accessing public information, and unfortunately if we want to access private information we won't be able to do it this way.  Facebook only allows us to access private information if we have a Facebook application which is explicitly authorized by our users.  
 
 ###**Authentication**
 
@@ -280,9 +275,7 @@ The [Facebook Authentication](http://developers.facebook.com/docs/authentication
     +----------------------+ 
     ToDo: make an infographic
 
-Ok, now our application has been authenticated and the user has authorized it, a question raises: 
-
-    What kind of information would my application access? 
+Ok, now our application has been authenticated and the user has authorized it, but you might be wondering what information we have access to.
 
 The answer is: 
 
@@ -299,16 +292,16 @@ Here is how we ask the user for extended permissions:
 
 Once we get the access token our application will be able to access all the photos, videos and even write to the users's wall.
 
-That was basically how authentication and authorization works in Facebook.
+That's basically how authentication and authorization works in Facebook.
 
-Now we have all we need to start creating real Facebook applications and the most important part, make them in Ruby.
+Now we know all we need to start creating real Facebook applications begin learning the most important part, how to make them in Ruby (and deploy them on Heroku).
 
 Ruby and Facebook (The status of gems and plugins)
 --------------------------------------------------
 
-I've found that most of the existing gems and Rails plugins are still using [Facebook Connect](http://en.wikipedia.org/wiki/Facebook_Platform#Facebook_Connect) and the [Old REST API](http://developers.facebook.com/docs/reference/rest/) instead of the new [Graph API](http://developers.facebook.com/blog/post/377) and that some of them doesn't work with Ruby 1.9 and/or Rails 3.
+I've found that most of the existing gems and Rails plugins are still using [Facebook Connect](http://en.wikipedia.org/wiki/Facebook_Platform#Facebook_Connect) and the [Old REST API](http://developers.facebook.com/docs/reference/rest/) instead of the new [Graph API](http://developers.facebook.com/blog/post/377) and that some of them don't work with Ruby 1.9 and/or Rails 3.
 
-The gems we are going to use in this tutorial are proven to work with Ruby 1.9.x and Rails 3.0.0, I'd like to share with you as well the gems I tested in the process of creation of this tutorial:
+The gems we are going to use in this tutorial are proven to work with Ruby 1.9.x and Rails 3.0.0.  Specifically we'll be using:
 
 * **Gems**
 	- [FBGraph](http://github.com/nsanta/fbgraph)
@@ -327,7 +320,7 @@ The gems we are going to use in this tutorial are proven to work with Ruby 1.9.x
 **Making a simple Facebook application**
 ------------------------------------------
 
-The fun part has finally arrived, we're about to make a simple Facebook application, how simple will our aplication be? Very simple, it will only show a list of links to interesting articles, to be exact, it'll show only two links, a Login button and some Like buttons, well, I said it'd be simple, isn't it?
+The fun part has finally arrived, we're about to make a simple Facebook application! How simple?  It will show a simple list of links to interesting articles, a Login button, and some Like buttons.  
 
 I'll assume you're using Ruby 1.9.x. and that you have at least [Git](http://book.git-scm.com/2_installing_git.html) 1.6.x installed. [To see a guide to install Git in different platforms, please click here](http://book.git-scm.com/2_installing_git.html).
 
@@ -335,15 +328,15 @@ If you are using any other version of Ruby I'd suggest you to [install Ruby 1.9.
 
 ### Installing the needed gems. 
 
-If you don't already do so, I do really recommend you to use [Bundler](http://gembundler.com/), it's the default gem dependency manager in Rails 3 and you'll fall in love with it as soon as you use it, well, at least I did.
+We'll need to make sure we have bundler:
 
     $ sudo gem install bundler
 
-We need to host our web application somewhere, let's do it the easy and fast way, let's	use [Heroku](http://www.heroku.com). We'll need to install the Heroku command-line tool, a gem that will allow us to create and deploy Heroku applications with ease.
+We'll also need to install the Heroku command-line tool, a gem that will allow us to create and deploy Heroku applications with ease.
 
 	$ sudo gem install heroku
 	
-Of course, you'll need to sign-up for a Heroku account and then configure the command-line tool, it's really a very simple process, [click here to see the full instructions](http://docs.heroku.com/heroku-command) to do so.
+If you haven't signed up for Heroku yet, now would be a good time. [Click here to see the full instructions](http://docs.heroku.com/heroku-command) to do so.
 
 #### What other gems are we going to use?
 
@@ -351,7 +344,7 @@ Of course, you'll need to sign-up for a Heroku account and then configure the co
 
 #### Installing gems with Bundler
 
-its workflow is very simple:
+Its workflow is very simple:
 
     $ bundle init
     Writing new Gemfile to ~/simplest_fb_app/Gemfile
@@ -527,8 +520,3 @@ Cool, it's right there, but wait, our Canvas application is still pointing to ou
 Now let's browse to our application [http://apps.facebook.com/faceboku](http://apps.facebook.com/faceboku) and that's it!
 
 [Download application](link_to_download_application_maybe_github)
-
-Making a Facebook application with Rails 3
-------------------------------------------
-
-...
