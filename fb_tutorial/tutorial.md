@@ -324,88 +324,209 @@ The gems we are going to use in this tutorial are proven to work with Ruby 1.9.x
 	- [rack-facebook](http://github.com/carlosparamio/rack-facebook)
 
 
-**Making the simplest Facebook application possible**
------------------------------------------------------
+**Making a simple Facebook application**
+------------------------------------------
 
+The fun part has finally arrived, we're about to make a simple Facebook application, how simple will our aplication be? Very simple, it will only show a list of links to interesting articles, to be exact, it'll show only two links, a Login button and some Like buttons, well, I said it'd be simple, isn't it?
 
-The fun part has finally arrived, in this section we'll make a very simple web application using the [Sinatra Framework](http://www.sinatrarb.com/) and we will integrate it with Facebook. I'll assume that you're using Ruby 1.9.x. and that you have [Git](http://book.git-scm.com/2_installing_git.html) installed.
+I'll assume you're using Ruby 1.9.x. and that you have at least [Git](http://book.git-scm.com/2_installing_git.html) 1.6.x installed. [To see a guide to install Git in different platforms, please click here](http://book.git-scm.com/2_installing_git.html).
 
 If you are using any other version of Ruby I'd suggest you to [install Ruby 1.9.x with RVM](http://amerine.net/2010/02/24/rvm-rails3-ruby-1-9-2-setup.html). If you're going to use [RVM](http://rvm.beginrescueend.com/) (Ruby Version Manager) you won't need to prefix the following commands with _sudo_ (Unix-like OSs only).
 
-Let's install some gems. 
+### Installing the needed gems. 
 
 If you don't already do so, I do really recommend you to use [Bundler](http://gembundler.com/), it's the default gem dependency manager in Rails 3 and you'll fall in love with it as soon as you use it, well, at least I did.
 
-	$ sudo gem install bundler
+    $ sudo gem install bundler
 
 We need to host our web application somewhere, let's do it the easy and fast way, let's	use [Heroku](http://www.heroku.com). We'll need to install the Heroku command-line tool, a gem that will allow us to create and deploy Heroku applications with ease.
 
 	$ sudo gem install heroku
-
+	
 Of course, you'll need to sign-up for a Heroku account and then configure the command-line tool, it's really a very simple process, [click here to see the full instructions](http://docs.heroku.com/heroku-command) to do so.
 
-We are all set up, let's get started!
+#### What other gems are we going to use?
 
-The first step will be to [create a Canvas application](http://www.facebook.com/developers/createapp.php) in Facebook, we already touched this earlier.
+* [Sinatra](http://www.sinatrarb.com/), a [DSL](http://en.wikipedia.org/wiki/Domain-specific_language) for quickly creating web applications in Ruby.
 
-I have named "Faceboku" but you can name it whatever you want to.
+#### Installing gems with Bundler
+
+its workflow is very simple:
+
+    $ bundle init
+    Writing new Gemfile to ~/simplest_fb_app/Gemfile
+	
+_Take into account that the gem is called Bundler while the command-line utility is called **bundle**_
+
+Edit the Gemfile with your preferred text editor to let it look like this:
+
+    source :gemcutter
+
+	gem 'sinatra', '1.0'
+
+Now we need to tell Bundler to check if we're missing the gems our application depends on, if so, tell it to install them:
+	
+	$ bundle check
+	The following gems are missing
+	...
+	
+    $ bundle install
+
+If you want to know the advantages of using Bundler please [check this Yehuda Katz' post out](http://yehudakatz.com/2010/04/12/some-of-the-problems-bundler-solves/)
+
+### **We are all set up, let's get started!**
+
+The first step will be to [create a Canvas application](http://www.facebook.com/developers/createapp.php) in Facebook, I'll name it **Faceboku** but you can name it whatever you want to.
 
 These would be our application settings:
 
-	**Canvas Page** = http://apps.facebook.com/faceboku/  
-	**Canvas URL** &nbsp;= http://localhost:4567 (the standard port used by Sinatra application)  
-	**Canvas Type** = IFrame
+**Site URL** = http://faceboku.heroku.com  
+**Canvas Page** => http://apps.facebook.com/faceboku/ (instead of _faceboku_ you must use a different one)  
+**Canvas URL** &nbsp;= http://localhost:4567 (the standard port used by Sinatra applications)  
+**Canvas Type** = IFrame
 
-If you don't see the Canvas Type option, don't worry, there's a possibility Facebook has got rid of it by the time you're reading this tutorial.
+_If you don't see the Canvas Type option, don't worry, there's a possibility Facebook has got rid of it by the time you're reading this._
 
-As you may realize, you won't be able to use the same Canvas Page than me, just choose another one. We're using http://localhost:4567 as our Canvas URL because that way we'll be able to test our Facebook application before we deploy it to Heroku.
+We're using **http://localhost:4567** because that way we'll be able to test our Facebook application before we deploy it to Heroku.
 
-What's next? our Sinatra application.
+What's next? our Sinatra application
 
-Create a directory called _simplest\_fb\_app_ wherever you want in your system, I'll do it in my home directory:
+Create a directory called _**simplest\_fb\_app**_ wherever you want in your system, I'll do it in my home directory:
 
 	$ mkdir ~/simplest_fb_app
 
-then create the following files on it:
+then create the following files and directories on it:
 
-	* **faceboku.rb** (use the name of your Canvas application)
-	* **config.ru** (Rack config file)
+* **faceboku.rb** (you may use the name of your canvas application)
+* **config.ru**
+* **views/** (folder)
+* **views/layout.erb**
+* **views/index.erb**
 
-If you installed Bundler, now we'd need to create a file called _Gemfile_, here we'll declare the dependencies of our application, but we don't need to make it manually, Bundler can make it for us:
+I'll let these files look like:
 
-	$ bundle init
-	Writing new Gemfile to ~/simplest_fb_app/Gemfile
+**faceboku.rb**
+	
+	require 'sinatra'
+	
+	#Here you have to put your own Application ID and Secret
+	APP_ID = '153304591365687'
+	APP_SECRET = '7a7663099ccb62f180d985ba1252a3e2'
 
-_Take into account that the gem is called Bundler while the command-line utility is called **bundle**_
+	get '/' do
+	    @articles = []
+	    @articles << {:title => 'Deploying Rack-based apps in Heroku', 
+					  :link => 'http://docs.heroku.com/rack/'}
+	    @articles << {:title => 'Learn Ruby in twenty minutes', 
+	                  :link => 'http://www.ruby-lang.org/en/documentation/quickstart/'}
+	    erb :index
+	end
 
-Now we're going to declare the dependencies, edit the Gemfile with the text editor you want to let it look like this:
+**config.ru** like this:
 
-	source :gemcutter
+	require 'faceboku' #this is to load faceboku.rb
 
-	gem 'sinatra', '1.0'
-	gem 'omniauth', '0.0.5'
+	run Sinatra::Application
 
-Tell Bundler to check if we have all the dependencies installed:
+**views/layout.erb**
 
-	$ bundle check
-	The following gems are missing
-	* sinatra (1.0)
-	Install missing gems with `bundle install`
+	<!DOCTYPE HTML>
+	<html xmlns:fb="http://www.facebook.com/2008/fbml">
+		<head>
+			<title>Faceboku</title>
+			<style>
+				body { font-family: Arial; font-size: 20px ;}
+				a { text-decoration: none; color: #333; }
+				.article { font-size: 1.2em; }
+				.like_app { font-size: 0.8em }
+			</style>
+		</head>
+		<body>
+			<%= yield %>
+			<div id="fb-root"></div>
+			<script>
+				window.fbAsyncInit = function() {
 
-Bundler is telling us that we don't have all the dependencies resolved, let's fix it:
+					FB.init({
+						appId: '<%=APP_ID%>',
+						status: true,
+						cookie: true,
+				        xfbml: true
+					});
+				};
 
-	$ bundle install
-	Fetching source index for http://rubygems.org/
-	Using...a lot of gems
-	Using rack (1.2.1) 
-	Installing omniauth (0.0.5) 
-	Installing sinatra (1.0) 
-	Using bundler (1.0.0) 
-	Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
+				(function() {
+				  var e = document.createElement('script');
+				  e.type = 'text/javascript';
+				  e.src = document.location.protocol +
+				    '//connect.facebook.net/en_US/all.js';
+				  e.async = true;
+				  document.getElementById('fb-root').appendChild(e);
+				}());
+			</script>
 
-What we gain using Bundler? There're a lot of advantages, first, we can be sure that you and me are using exactly the same versions of gems, second, Bundler creates a file called Gemfile.lock, take a look at it, you'll see a tree of dependencies, third, Bundler makes easy to deploy to different environments.
+		</body>
+	</html>
+	
+**views/index.erb**
 
-NOT FINISHED
+	<fb:login-button autologoutlink="true"></fb:login-button>
+	<h3>Welcome to my list of interesting articles</h3>
+
+	<table>
+		<% @articles.each do |article| %>
+		<tr>
+			<td class='article'>- <a href='javascript:void(0);'><%=article[:title]%></a></td>
+			<td><fb:like href="<%=article[:link]%>" layout="button_count" show_faces="false" /></td>
+		</tr>
+		<% end %>
+	</table>
+
+	<hr />
+	<p><span class='like_app'>Do you like this application?</span></p>
+	<p><fb:like /></p>
+
+Wow, what an amazing application!, let's run it and browse it!
+
+	$ ruby faceboku.rb
+
+Open your browser and point it to [http://localhost:4567](http://localhost:4567).
+
+This is an easy application, it let your users to login with their Facebook credentials, it let them like your links and the application itself.
+
+This is a Facebook application, which means we can see it in action in the Facebook site, let's try it, browse the following URL [http://apps.facebook.com/faceboku](http://apps.facebook.com/faceboku).
+
+And there it is, our super application right on Facebook.
+
+Ok, but we can't serve our application from our local machine all the time, we need a server must always be up and running, nothing simpler than Heroku, it'll be a 4 steps process, let's do it:
+
+Assuming we are in our application directory we'll need to turn it into a git one:
+	
+    $ git init
+
+Add all the files and directories to source control:
+
+    $ git add .
+
+Commit them to your local repository:
+
+    $ git commit -m "First version of my facebook application"
+
+Deploy to Heroku:
+
+	$ git push heroku master
+	
+Done! Our application has been deployed to Heroku, wouldn't you like to see it right away? simple:
+
+	$ heroku open
+	
+Cool, it's right there, but wait, our Canvas application is still pointing to our local machine, we now want it to point to Heroku, let's change our Canvas URL:
+
+**Canvas URL** &nbsp;= http://faceboku.heroku.com
+
+Now let's browse to our application [http://apps.facebook.com/faceboku](http://apps.facebook.com/faceboku) and that's it!
+
+[Download application](link_to_download_application_maybe_github)
 
 Making a Facebook application with Rails 3
 ------------------------------------------
