@@ -45,12 +45,14 @@ This is the easiest part, you just have to go to the Facebook Developer site and
 
 > screenshot of the form
 
-Input whatever application name you want in the _Application Name_ field, like "My Facebook App", then agree the terms and click the _Create Application_ button, after passing the _Security Check_ you'll be presented with the _Basic Information_ of your brand new application.
+Input whatever application name you want in the _Application Name_ field, like "My Application", then agree the terms and click the _Create Application_ button, after passing the _Security Check_ you'll be presented with the _Basic Information_ of your brand new application.
+
+![Basic Information!](images/basic_information.gif)
 
 Cool, we've created our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/), now we'd need to associate it with an existing web app.
 
 ####Web application
-For the moment, we'll assume we already have a web application we'd like to associate with Facebook and we'll assume we are hosting it in **_http://my\_facebook\_app.heroku.com/_**
+For the moment, we'll assume we already have a web application we'd like to associate with Facebook and we'll assume we are hosting it in **_http://my\_application.heroku.com/_**
 
 ###**Association**
 
@@ -68,9 +70,9 @@ I'd like you to pay attention to the Canvas section, here we'll find all the set
 	By the way, sometimes you'll have to struggle to find an available name, it's like when you want to buy a .com domain, all the common names are often taken.
 
 * **Canvas URL**
-	- This is the URL of our web application, in this case **_http://my\_facebook\_app.heroku.com/_** (the trailing slash is mandatory).
+	- This is the URL of our web application, in this case **_http://http://my\_application.heroku.com/.heroku.com/_** (the trailing slash is mandatory).
 
-Now, when our users browses **_http://apps.facebook.com/my\_facebook\_app/_**, Facebook will show them our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/) (an HTML page) which contains an [IFrame](http://www.w3schools.com/tags/tag_iframe.asp) (inline frame) that in turn shows **_http://my\_facebook\_app.heroku.com/_**. These kind of applications are called **IFrame Canvas Applications**.
+Now, when our users browses **_http://apps.facebook.com/http://my\_application.heroku.com//_**, Facebook will show them our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/) (an HTML page) which contains an [IFrame](http://www.w3schools.com/tags/tag_iframe.asp) (inline frame) that in turn shows **_http://http://my\_application.heroku.com/.heroku.com/_**. These kind of applications are called **IFrame Canvas Applications**.
 
        Canvas application                    Web application
           in Facebook                      in our own servers
