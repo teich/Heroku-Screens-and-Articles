@@ -460,12 +460,11 @@ Now let's browse to our application [http://apps.facebook.com/faceboku](http://a
 In Conclusion
 -------------
 
-Making full-featured Facebook application is a simple process
-There are still a lot of things to do to give your users a full Facebook experience, like using the [Open Graph protocol](http://developers.facebook.com/docs/opengraph) to turn your applications or resources into graph objects, which basically means making them likeable and shareable through Fcebook or like showing them special recommendations based on their profile information, etc., but some of the most interesting things require you to store access tokens to a database to make requests on behalf of your users without relying on cookies, although you can do it with Sinatra if you're thinking of making a medium-to-large sized application definitely your best bet would be [Rails 3](http://rubyonrails.org/).
+As you can see building facebook applications with Ruby is a sinch, and with Heroku taking care of deployment it becomes even easier. However, if you're building a large application you may want to consult a more robust Web framework (other then Sinatra).  The most obvious choice here would be [Rails 3](http://rubyonrails.org/).
 
 ###Rails 3 and Facebook integration
 
-I've found that most of the existing gems and Rails plugins are still using [Facebook Connect](http://en.wikipedia.org/wiki/Facebook_Platform#Facebook_Connect) and the [Old REST API](http://developers.facebook.com/docs/reference/rest/) instead of the new [Graph API](http://developers.facebook.com/blog/post/377) and that some of them don't work with Ruby 1.9 and/or Rails 3.
+I've found that most of the existing gems and Rails plugins are still using [Facebook Connect](http://en.wikipedia.org/wiki/Facebook_Platform#Facebook_Connect) and the [Old REST API](http://developers.facebook.com/docs/reference/rest/) instead of the new [Graph API](http://developers.facebook.com/blog/post/377) and some of them don't even work with Ruby 1.9 and/or Rails 3.
 
 The following are proven to work with Ruby 1.9.x and Rails 3.0.0.
 
@@ -484,6 +483,8 @@ The following are proven to work with Ruby 1.9.x and Rails 3.0.0.
 	- [rack-facebook](http://github.com/carlosparamio/rack-facebook)
 	
 ###Useful resources
+
+Here's a few other resources you may find useful to get started integrating with Facebook, and hosting on Heroku.
 
 #### Facebook
 - [Facebook for Websites](http://developers.facebook.com/docs/guides/web)
