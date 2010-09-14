@@ -298,27 +298,6 @@ That's basically how authentication and authorization works in Facebook.
 
 Now we know all we need to start creating real Facebook applications begin learning the most important part, how to make them in Ruby (and deploy them on Heroku).
 
-Ruby and Facebook (The status of gems and plugins)
---------------------------------------------------
-
-I've found that most of the existing gems and Rails plugins are still using [Facebook Connect](http://en.wikipedia.org/wiki/Facebook_Platform#Facebook_Connect) and the [Old REST API](http://developers.facebook.com/docs/reference/rest/) instead of the new [Graph API](http://developers.facebook.com/blog/post/377) and that some of them don't work with Ruby 1.9 and/or Rails 3.
-
-The gems we are going to use in this tutorial are proven to work with Ruby 1.9.x and Rails 3.0.0.  Specifically we'll be using:
-
-* **Gems**
-	- [FBGraph](http://github.com/nsanta/fbgraph)
-	- [miniFB](http://github.com/appoxy/mini_fb)
-	- [Koala](http://github.com/arsduo/koala)
-	- [Mogli](http://github.com/mmangino/mogli)
-
-* **Plugins**
-	- [Facebooker2](http://github.com/mmangino/facebooker2)
-
-* **Middlewares**
-	- [OmniAuth](http://github.com/intridea/omniauth)
-	- [rack-facebook](http://github.com/carlosparamio/rack-facebook)
-
-
 **Making a simple Facebook application**
 ------------------------------------------
 
