@@ -43,11 +43,11 @@ Actually, the association is part of the configuration, but I like to think of t
 
 This is the easiest part, you just have to go to the Facebook Developer site and [setup a new application](http://www.facebook.com/developers/createapp.php). 
 
-![Create Application!](images/create_fb_app_form.gif)
+![Create Application](https://github.com/envylabs/Heroku-Screens-and-Articles/raw/master/fb_tutorial/images/create_fb_app_form.gif)
 
 Input whatever application name you want in the _Application Name_ field, like "My Application", then agree the terms and click the _Create Application_ button, after passing the _Security Check_ you'll be presented with the _Basic Information_ of your brand new application.
 
-![Basic Information!](images/basic_information.gif)
+![Basic Information!](https://github.com/envylabs/Heroku-Screens-and-Articles/raw/master/fb_tutorial/images/basic_information.gif)
 
 Cool, we've created our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/), now we'd need to associate it with an existing web app.
 
@@ -60,7 +60,7 @@ _**NOTE**: In case you closed the previous window you can access all your applic
 
 Now, click the **_Facebook Integration_** button in the settings page. 
 
-![Facebook Integration!](images/facebook_integration.gif)
+![Facebook Integration!](https://github.com/envylabs/Heroku-Screens-and-Articles/raw/master/fb_tutorial/images/facebook_integration.gif)
 
 I'd like you to pay attention to the Canvas section, here we'll find all the settings we need to associate our existing web app with our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/).
 
@@ -74,7 +74,7 @@ I'd like you to pay attention to the Canvas section, here we'll find all the set
 
 Now, when our users browses **_http://apps.facebook.com/http://my\_application.heroku.com//_**, Facebook will show them our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/) (an HTML page) which contains an [IFrame](http://www.w3schools.com/tags/tag_iframe.asp) (inline frame) that in turn shows **_http://my\_application.heroku.com/_**. These kind of applications are called **IFrame Canvas Applications**.
 
-![Application in Canvas](images/architecture/application_in_canvas.gif)
+![Application in Canvas](https://github.com/envylabs/Heroku-Screens-and-Articles/raw/master/fb_tutorial/images/architecture/application_in_canvas.gif)
 
 _An IFrame Canvas application is actually an IFrame surrounded by the Facebook chrome. The IFrame points to our web app URL._
 
@@ -111,7 +111,7 @@ Here's a diagram of how Facebook applications interact with the [Graph API](http
 5. Facebook responds in JSON format
 6. Our app builds an HTML response to show the name of the current user and it is shown in the IFrame  
 
-![Graph API interaction](images/architecture/graph_api_interaction.gif)
+![Graph API interaction](https://github.com/envylabs/Heroku-Screens-and-Articles/raw/master/fb_tutorial/images/architecture/graph_api_interaction.gif)
 
 If our application requests the Graph API via Javascript the communication would be directly with the Facebook servers.  Here's an example:
 
@@ -125,7 +125,7 @@ Our application contains the following Javascript code which is by the user with
 
 Facebook returns the response in JSON and its parsed by the callback function and it alerts with the name of the current user.
 
-![Call Graph API with JS](images/architecture/call_graph_api_with_js.gif)
+![Call Graph API with JS](https://github.com/envylabs/Heroku-Screens-and-Articles/raw/master/fb_tutorial/images/architecture/call_graph_api_with_js.gif)
 
 The Facebook's Graph API
 ------------------------
@@ -224,7 +224,7 @@ Facebook will request the callback url with the access token
 	
 Store it in a DB, cookie or wherever you want, it must be used to make requests on behalf of the user.
 
-![Authorization process](images/architecture/auth_process.gif)
+![Authorization process](https://github.com/envylabs/Heroku-Screens-and-Articles/raw/master/fb_tutorial/images/architecture/auth_process.gif)
 
 Ok, now our application has been authenticated and the user has authorized it, but you might be wondering what information we have access to.
 
@@ -417,13 +417,13 @@ Wow, what an amazing application!, let's run it and browse it!
 
 Open your browser and point it to [http://localhost:4567](http://localhost:4567).
 
-![Sinatra application!](images/sinatra.gif)
+![Sinatra application!](https://github.com/envylabs/Heroku-Screens-and-Articles/raw/master/fb_tutorial/images/sinatra.gif)
 
 This is an easy application, it let your users to login with their Facebook credentials, it let them like your links and the application itself.
 
 This is a Facebook application, which means we can see it in action in the Facebook site, let's try it, browse the following URL [http://apps.facebook.com/faceboku](http://apps.facebook.com/faceboku).
 
-![Sinatra application inside Facebook!](images/sinatra_on_facebook.gif)
+![Sinatra application inside Facebook!](https://github.com/envylabs/Heroku-Screens-and-Articles/raw/master/fb_tutorial/images/sinatra_on_facebook.gif)
 
 And there it is, our super application right on Facebook.
 
@@ -451,7 +451,7 @@ Done! Our application has been deployed to Heroku, wouldn't you like to see it r
 	
 Cool, it's right there, but wait, our Canvas application is still pointing to our local machine, we now want it to point to Heroku, let's change our Canvas URL:
 
-![Change Canvas URL!](images/change_canvas_url.gif)
+![Change Canvas URL!](https://github.com/envylabs/Heroku-Screens-and-Articles/raw/master/fb_tutorial/images/change_canvas_url.gif)
 
 Now let's browse to our application [http://apps.facebook.com/faceboku](http://apps.facebook.com/faceboku) and that's it!
 
