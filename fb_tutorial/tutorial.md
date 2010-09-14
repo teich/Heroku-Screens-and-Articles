@@ -72,22 +72,11 @@ I'd like you to pay attention to the Canvas section, here we'll find all the set
 * **Canvas URL**
 	- This is the URL of our web application, in this case **_http://http://my\_application.heroku.com/.heroku.com/_** (the trailing slash is mandatory).
 
-Now, when our users browses **_http://apps.facebook.com/http://my\_application.heroku.com//_**, Facebook will show them our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/) (an HTML page) which contains an [IFrame](http://www.w3schools.com/tags/tag_iframe.asp) (inline frame) that in turn shows **_http://http://my\_application.heroku.com/.heroku.com/_**. These kind of applications are called **IFrame Canvas Applications**.
+Now, when our users browses **_http://apps.facebook.com/http://my\_application.heroku.com//_**, Facebook will show them our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/) (an HTML page) which contains an [IFrame](http://www.w3schools.com/tags/tag_iframe.asp) (inline frame) that in turn shows **_http://my\_application.heroku.com/_**. These kind of applications are called **IFrame Canvas Applications**.
 
-       Canvas application                    Web application
-          in Facebook                      in our own servers
-    +----------------------+       -->   +--------------------+
-    | Facebook chrome      |     /       |       hello!       |
-    |  +-----------+ <-    |   /         |                    |
-    |  |   hello!  |    \==|===          |                    |
-    |  |           |       |             |                    |
-    |  |   Canvas  |    /==|===          |                    |
-    |  +-----------+ <-    |   \         |                    |
-    |                      |     \       |                    |
-    +----------------------+       -->   +--------------------+
-	ToDo: make an infograhic
+![Application in Canvas](images/architecture/application_in_canvas.gif)
 
-Fig1. An IFrame Canvas application is actually an IFrame surrounded by the Facebook chrome. The IFrame points to our web app URL.
+_An IFrame Canvas application is actually an IFrame surrounded by the Facebook chrome. The IFrame points to our web app URL._
 
 Let's try it with our new application. 
 
@@ -113,44 +102,20 @@ Facebook has two mechanisms to let our web applications interact with the data o
 
 When your application wants to retrieve information from your app users you'll use the [Graph API](http://developers.facebook.com/docs/api) in one way or other.
 
-Here's a diagram of how Facebook applications interact with the [Graph API](http://developers.facebook.com/docs/api) and XFBML.
+Here's a diagram of how Facebook applications interact with the [Graph API](http://developers.facebook.com/docs/api)
 
+1. User request http://apps.facebook.com/my_facebook_app  
+2. Facebook returns HTML code with the Facebook chrome and the IFrame  
+3. The IFrame request the Canvas URL to our server  
+4. Our web asks for the current user's name to the Graph API
+5. Facebook responds in JSON format
+6. Our app builds an HTML response to show the name of the current user and it is shown in the IFrame  
 
-1.User request http://apps.facebook.com/my_facebook_app  
-2.Facebook returns HTML code with the Facebook chrome and the IFrame  
-3.The IFrame request the Canvas URL to our server  
-4a.Our web app make a request to the Graph API (say the name of the current user)  
-4b.Our web app contains XFBML (a Login and a Like button)  
-5a.The Graph API respond with the users data in JSON/XML  
-5a. Facebook responds with the HTML to show the Login and Like buttons  
-6.Our app builds an HTML response to show the name of the current user and it is shown in the IFrame  
-
-
-                                   1  
-    +----------------------+ ==============> +-----------+   
-    | Facebook chrome      |                 |           |  
-    |  +-----------+       |       2         |    FB     | ----  
-    |  |   hello!  |       | <============== |           |    |  
-    |  |           |       |                 |           |    |  
-    |  |   Canvas  |       |                 +-----------+    |  
-    |  +--+----+---+       |                           ^      |  
-    |     ^    |           |                           |      |  
-    +-----|----|-----------+                           |      |  
-          |    |______________                         | 4    | 5  
-          |________________    \                       |      |  
-                  6         \    \  3                  |      |  
-                              \    \                   |      |  
-                                \    \                 |      |  
-                                 |    `--->  +-----------+    |      
-                                 |           |           |    |  
-                                  \          |    Our    |    |  
-                                    `------- |   server  | <--'  
-                                             +-----------+  
-    ToDo: make an infographic
+![Graph API interaction](images/architecture/graph_api_interaction.gif)
 
 If our application requests the Graph API via Javascript the communication would be directly with the Facebook servers.  Here's an example:
 
-1.Our application contains the following Javascript code:
+Our application contains the following Javascript code which is by the user with a button.
 
     <script>
 	      FB.api('/me', function(response) {
@@ -158,20 +123,9 @@ If our application requests the Graph API via Javascript the communication would
 	      });
 	</script>
 
-It's fired by the user with a button.
+Facebook returns the response in JSON and its parsed by the callback function and it alerts with the name of the current user.
 
-2.Facebook returns the response in JSON and its parsed by the callback function and it alerts with the name of the current user.
-
-    +----------------------+     
-    | Facebook chrome      |              +-----------+  
-    |  +-----------+       |    1         |           | 
-    |  |   hello!  | ------|----------->  |    FB     | 
-    |  |           |       |              |           | 
-    |  |   Canvas  | <-----|------------  |           | 
-    |  +-----------+       |    2         +-----------+                           
-    |                      |                             
-    +----------------------+ 
-    ToDo: make an infographic
+![Call Graph API with JS](images/architecture/call_graph_api_with_js.gif)
 
 The Facebook's Graph API
 ------------------------
@@ -242,40 +196,35 @@ Facebook uses the [OAuth 2.0 protocol](http://wiki.oauth.net/OAuth-2) for authen
     Authentications means "It's me, and here's my proof"  
     Authorization means "Now that you know who I am, would you let me do this or that?"  
 
-The [Facebook Authentication](http://developers.facebook.com/docs/authentication/) page explains the authentication process very well, but I'll try to summarize the process with a simple graphic:
+The [Facebook Authentication](http://developers.facebook.com/docs/authentication/) page explains the authentication process very well, but I'll try to summarize the process with a simple graphic, let's say we have a server running in port 3000:
 
-1.Register your application to get an app ID and secret
+Register your application to get an app ID and secret
 
-2.https://graph.facebook.com/oauth/authorize?
-     client\_id=app_id&
-     redirect\_url=http://localhost:3000/oauth_callback
+Redirect your users to the following URL:
 
-3.If the user authorizes your application, we redirect the user back to the redirect URI you specified 
-   http://localhost:3000/oauth_redirect?code=the\_code
+	https://graph.facebook.com/oauth/authorize?
+     client_id=app_id&
+     redirect_url=http://localhost:3000/oauth_callback
 
-4.Exchange the code for an oauth access token in the following URL
-   https://graph.facebook.com/oauth/access_token?
-	 client\_id=...&
-     redirect\_uri=http://localhost:3000/oauth_callback
+If the user authorizes your application, Facebook will request the following URL:
+
+	http://localhost:3000/oauth_callback?code=a_code_sent_by_facebook
+
+Exchange the code for an oauth access token in the following URL
+
+	https://graph.facebook.com/oauth/access_token?
+	 client_id=...&
+     redirect_uri=http://localhost:3000/oauth_callback
      client_secret=...&
      code=...
 
-5.Facebook will request the callback url with the access token
-	 http://localhost:3000/oauth_callback?access_token=3gergve5gesrdsgs
+Facebook will request the callback url with the access token
+
+	http://localhost:3000/oauth_callback?access_token=148664335156575|82da7d8e19b3eba2f0b0ffd9
 	
-6.Store it in a DB, cookie or whereever you want, it must be used to make requests on behalf of the user.
+Store it in a DB, cookie or wherever you want, it must be used to make requests on behalf of the user.
 
-
-    +----------------------+     2
-    | Facebook chrome      |------------> +-----------+
-    |  +-----------+       |     3        |           |
-    |  |           | <-----|------------  |    FB     |
-    |  |           |       |    4         |           |
-    |  |   Canvas  | ------|------------> |           |
-    |  +-----^-----+       |    5         +-----+-----+
-    |        |-------------|-------------------/                          
-    +----------------------+ 
-    ToDo: make an infographic
+![Authorization process](images/architecture/auth_process.gif)
 
 Ok, now our application has been authenticated and the user has authorized it, but you might be wondering what information we have access to.
 
