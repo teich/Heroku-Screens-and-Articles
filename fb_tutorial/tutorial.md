@@ -507,3 +507,53 @@ Cool, it's right there, but wait, our Canvas application is still pointing to ou
 Now let's browse to our application [http://apps.facebook.com/faceboku](http://apps.facebook.com/faceboku) and that's it!
 
 [Download application](link_to_download_application_maybe_github)
+
+In Conclusion
+-------------
+
+Making full-featured Facebook application is a simple process
+There are still a lot of things to do to give your users a full Facebook experience, like using the [Open Graph protocol](http://developers.facebook.com/docs/opengraph) to turn your applications or resources into graph objects, which basically means making them likeable and shareable through Fcebook or like showing them special recommendations based on their profile information, etc., but some of the most interesting things require you to store access tokens to a database to make requests on behalf of your users without relying on cookies, although you can do it with Sinatra if you're thinking of making a medium-to-large sized application definitely your best bet would be [Rails 3](http://rubyonrails.org/).
+
+###Rails 3 and Facebook integration
+
+I've found that most of the existing gems and Rails plugins are still using [Facebook Connect](http://en.wikipedia.org/wiki/Facebook_Platform#Facebook_Connect) and the [Old REST API](http://developers.facebook.com/docs/reference/rest/) instead of the new [Graph API](http://developers.facebook.com/blog/post/377) and that some of them don't work with Ruby 1.9 and/or Rails 3.
+
+The following are proven to work with Ruby 1.9.x and Rails 3.0.0.
+
+* **Gems**
+	- [Cardinal Blue's rest-graph](http://github.com/cardinalblue/rest-graph)
+	- [miniFB](http://github.com/appoxy/mini_fb)
+	- [FBGraph](http://github.com/nsanta/fbgraph)
+	- [Koala](http://github.com/arsduo/koala)
+	- [Mogli](http://github.com/mmangino/mogli)
+
+* **Plugins**
+	- [Facebooker2](http://github.com/mmangino/facebooker2)
+
+* **Middlewares**
+	- [OmniAuth](http://github.com/intridea/omniauth)
+	- [rack-facebook](http://github.com/carlosparamio/rack-facebook)
+	
+###Useful resources
+
+#### Facebook
+- [Facebook for Websites](http://developers.facebook.com/docs/guides/web)
+- [Apps on Facebook](http://developers.facebook.com/docs/guides/canvas/)
+- [Documentation](http://developers.facebook.com/docs/)
+- [Developer Forum](http://forum.developers.facebook.net/)
+- [Developer Roadmap](http://developers.facebook.com/roadmap)
+- [Developer Blog](http://developers.facebook.com/blog/)
+- [Test Console](http://developers.facebook.com/tools/console/) - A console to test XFBML and Graph API methods
+- [URL Linter](http://developers.facebook.com/tools/lint/) - An Open Graph parser
+
+####Sinatra
+- [Sinatra Book](http://sinatra-book.gittr.com/)
+
+####Rails 3
+- [Railscasts](http://railscasts.com/tags/27)
+- [Dive into Rails 3](http://rubyonrails.org/screencasts/rails3)
+- [Rails Tutorial](http://railstutorial.org/)
+
+####Heroku
+- [What is Heroku?](http://docs.heroku.com/heroku)
+- [Quickstart guide](http://docs.heroku.com/quickstart)
