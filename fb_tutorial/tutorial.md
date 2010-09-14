@@ -422,10 +422,10 @@ I'll let these files look like:
 				window.fbAsyncInit = function() {
 
 					FB.init({
-						appId: '<%=APP_ID%>',
-						status: true,
-						cookie: true,
-				        xfbml: true
+						appId: '<%=APP_ID%>', 
+						status: true,         // check login status
+						cookie: true,         // set a cookie with the session (access token, user id, etc.)
+				        xfbml: true           // parse XFBML (Login and Like buttons)
 					});
 				};
 
@@ -441,7 +441,9 @@ I'll let these files look like:
 
 		</body>
 	</html>
-	
+
+The [FB.init](http://developers.facebook.com/docs/reference/javascript/FB.init) method will initialize our application and it will save a cookie called _fbs\_APP\_ID_ (cookie: true) containing the access token, among other things. If we'd want to perform authorized requests on behalf of our users we'd need to include such access token in our Graph API requests.
+
 **views/index.erb**
 
 	<fb:login-button autologoutlink="true"></fb:login-button>
