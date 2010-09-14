@@ -43,7 +43,7 @@ Actually, the association is part of the configuration, but I like to think of t
 
 This is the easiest part, you just have to go to the Facebook Developer site and [setup a new application](http://www.facebook.com/developers/createapp.php). 
 
-> screenshot of the form
+![Create Application!](images/create_fb_app_form.gif)
 
 Input whatever application name you want in the _Application Name_ field, like "My Application", then agree the terms and click the _Create Application_ button, after passing the _Security Check_ you'll be presented with the _Basic Information_ of your brand new application.
 
@@ -60,7 +60,7 @@ _**NOTE**: In case you closed the previous window you can access all your applic
 
 Now, click the **_Facebook Integration_** button in the settings page. 
 
-> screenshot of the settings page
+![Facebook Integration!](images/facebook_integration.gif)
 
 I'd like you to pay attention to the Canvas section, here we'll find all the settings we need to associate our existing web app with our [Canvas Application](http://developers.facebook.com/docs/guides/canvas/).
 
@@ -487,9 +487,13 @@ Wow, what an amazing application!, let's run it and browse it!
 
 Open your browser and point it to [http://localhost:4567](http://localhost:4567).
 
+![Sinatra application!](images/sinatra.gif)
+
 This is an easy application, it let your users to login with their Facebook credentials, it let them like your links and the application itself.
 
 This is a Facebook application, which means we can see it in action in the Facebook site, let's try it, browse the following URL [http://apps.facebook.com/faceboku](http://apps.facebook.com/faceboku).
+
+![Sinatra application inside Facebook!](images/sinatra_on_facebook.gif)
 
 And there it is, our super application right on Facebook.
 
@@ -517,7 +521,7 @@ Done! Our application has been deployed to Heroku, wouldn't you like to see it r
 	
 Cool, it's right there, but wait, our Canvas application is still pointing to our local machine, we now want it to point to Heroku, let's change our Canvas URL:
 
-**Canvas URL** &nbsp;= http://faceboku.heroku.com
+![Change Canvas URL!](images/change_canvas_url.gif)
 
 Now let's browse to our application [http://apps.facebook.com/faceboku](http://apps.facebook.com/faceboku) and that's it!
 
